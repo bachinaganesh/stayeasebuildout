@@ -1,8 +1,11 @@
 package com.stayease.stayeasebuildout.config;
 
+import java.net.http.HttpRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -42,6 +45,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity.authorizeHttpRequests(auth -> auth.requestMatchers("/api/users/**").permitAll()
+        .requestMatchers(HttpMethod.GET, "/api/hotels/**").permitAll()
         .anyRequest().authenticated())
         .csrf(csrf -> csrf.disable())
         .exceptionHandling(ex -> {ex.authenticationEntryPoint(customAuthenticationEntryPoint);
